@@ -1,2 +1,11 @@
 ### root access
 GET http://localhost:8000
+
+###  login api end point
+POST http://localhost:8000/api/v1/login
+Content-Type: application/json
+
+{
+    "email":"test@gmail.com",
+    "password":"sdsdsdsdsd",
+}
