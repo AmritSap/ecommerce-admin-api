@@ -9,3 +9,18 @@ Content-Type: application/json
     "email":"tedt@gmai.com",
     "password":"ds"
 }
+
+
+### Category Zone 
+###  Fetch all category api end point
+GET http://localhost:8000/api/v1/category
+
+###  Fetch all category api end point
+POST  http://localhost:8000/api/v1/category
+Content-Type: application/json
+
+{
+  "name": "sds",
+  "parentCategory": "dsd"
+}
+

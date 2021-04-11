@@ -12,6 +12,8 @@ export const createUser = (userObj) => {
     }
   });
 };
+
+
 export const getUserByEmailPass = ({ email, password }) => {
   console.log(email, password);
   return new Promise((resolve, reject) => {
