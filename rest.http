@@ -23,4 +23,7 @@ Content-Type: application/json
   "name": "sds",
   "parentCategory": "dsd"
 }
+### Delete ccate
+DELETE   http://localhost:8000/api/v1/category
+
 

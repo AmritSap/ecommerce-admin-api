@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const CategorySchema = mongoose.Schema(
   {
@@ -7,8 +7,13 @@ const CategorySchema = mongoose.Schema(
       require: true,
       default: "",
     },
-    parentCategory: {
+    slug: {
       type: String,
+      require: true,
+      default: "",
+    },
+    parentCategory: {
+      type: mongoose.Schema.ObjectId,
       require: true,
       default: "",
     },
@@ -18,7 +23,7 @@ const CategorySchema = mongoose.Schema(
     //       type: String,
     //       require: true,
     //       default: "",
-    //     }
+    //     },
     //   },
     // ],
   },
@@ -27,4 +32,4 @@ const CategorySchema = mongoose.Schema(
   }
 );
 
-export const CatSchema =mongoose.model("Category",CategorySchema)
+export const CatSchema = mongoose.model("Category", CategorySchema);
