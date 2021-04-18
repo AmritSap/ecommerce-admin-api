@@ -23,7 +23,40 @@ Content-Type: application/json
   "name": "sds",
   "parentCategory": "dsd"
 }
+###patch 
+PATCH   http://localhost:8000/api/v1/category
+Content-Type: application/json
+
+{
+  "_id":"607a0e6c0aff1b12ec459683",
+  "name": "sds"
+ 
+}
 ### Delete ccate
 DELETE   http://localhost:8000/api/v1/category
 
+### product zone
 
+###  Fetch all product api end point
+GET http://localhost:8000/api/v1/product
+
+###  Fetch single product api end point
+GET http://localhost:8000/api/v1/product/607b90e377a549394412c99c
+
+
+
+POST  http://localhost:8000/api/v1/product
+Content-Type: application/json
+
+{
+  "name":"dasdasdas",
+  "qty":2
+}
+
+### fetch sinfgle product
+PUT http://localhost:8000/api/v1/product
+Content-Type: application/json
+
+{
+ "_id":"607b66567eaba54628b2453a"
+ }
