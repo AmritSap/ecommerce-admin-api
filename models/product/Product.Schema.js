@@ -10,7 +10,7 @@ const ProductSchema = mongoose.Schema(
     status: {
       type: Boolean,
       require: true,
-      default: true,
+      default: false,
     },
     slug: {
       type: String,
@@ -27,6 +27,7 @@ const ProductSchema = mongoose.Schema(
     },
     saleEndDate: {
       type: Date,
+      default:null,
     },
     qty: {
       type: Number,
@@ -36,24 +37,20 @@ const ProductSchema = mongoose.Schema(
     description: {
       type: String,
       require: true,
-      default: 0,
+      default: "",
     },
     thumbNail: {
       type: String,
     },
+
     images: {
       type: Array,
     },
+    categories: {
+      type: Array,
+    },
 
-    // childCats: [
-    //   {
-    //     name: {
-    //       type: String,
-    //       require: true,
-    //       default: "",
-    //     },
-    //   },
-    // ],
+    
   },
   {
     timestamp: true,

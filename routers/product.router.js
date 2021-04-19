@@ -1,13 +1,19 @@
 import express from "express";
 const router = express.Router();
 import slugify from "slugify";
+
 import {
   insertProduct,
   getProduct,
   deleteProduct,
   getProductById,
+  updateProductById,
 } from "../models/product/Product.model.js";
-import { newProductVidation } from "../middlewares/formValidation.middleware.js";
+
+import {
+  newProductVidation,
+  updateProductVidation,
+} from "../middlewares/formValidation.middleware.js";
 
 router.all("*", (req, res, next) => {
   next();
@@ -15,12 +21,13 @@ router.all("*", (req, res, next) => {
 
 router.get("/:_id?", async (req, res) => {
   const { _id } = req.params;
-  console.log(req.params);
+
   try {
     const result = _id ? await getProductById(_id) : await getProduct();
+
     res.json({
       status: "sucess",
-      message: "fetching sucess",
+      message: "Here are all products",
       result,
     });
   } catch (error) {
@@ -29,24 +36,37 @@ router.get("/:_id?", async (req, res) => {
   }
 });
 
-// router.put("/", async (req, res) => {
-//   const _id =req.body
-//   try {
-//     const result = await getProductById(_id);
-//     res.json({
-//       status: "sucess",
-//       message: "fetching sucess",
-//       result,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     throw new Error(error.message);
-//   }
-// });
+router.put("/", updateProductVidation, async (req, res) => {
+  // seperates the id from formDt and send it different
+  const { _id, ...formDt } = req.body;
+
+  try {
+    const result = await updateProductById({ _id, formDt });
+    if (result?._id) {
+      res.json({
+        status: "sucess",
+        message: "product updated",
+        result,
+      });
+    }
+    res.json({
+      status: "error",
+      message: "failed to update product",
+      result,
+    });
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+});
 router.post("/", newProductVidation, async (req, res) => {
   try {
-    const result = await insertProduct(req.body);
-    console.log(result);
+    const addNewProd = {
+      ...req.body,
+      slug: slugify(req.body.name, { lower: true }),
+    };
+
+    const result = await insertProduct(addNewProd);
 
     if (result._id) {
       return res.json({
