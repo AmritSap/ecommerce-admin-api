@@ -6,9 +6,36 @@ POST http://localhost:8000/api/v1/login
 Content-Type: application/json
 
 {
-    "email":"tedt@gmai.com",
-    "password":"ds"
+    "email":"amrittsapkota32@gmail.com",
+    "password":"123456"
 }
+
+
+### user router
+###get user by id
+GET http://localhost:8000/api/v1/user/ 
+Authorization: 
+
+
+
+### create user
+POST http://localhost:8000/api/v1/user
+Content-Type: application/json
+
+{
+    "email":"amrittsapkota32@gmail.com",
+    "password":"123456",
+    "fName":"amrita",
+    "lName":"sapkota",
+    "role":"admin"
+}
+
+
+###tokrn endpoint 
+# request fresh acessJWT
+GET http://localhost:8000/api/v1/token
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFtcml0c2Fwa290YTMyQGdtYWlsLmNvbSIsImlhdCI6MTYxOTQ4NzI3NiwiZXhwIjoxNjIyMDc5Mjc2fQ.4VX9Ykhqs8MLngpNe3VAa4ZM_u6PP6IXI03qsDYxgCc
+
 
 
 ### Category Zone 
@@ -33,7 +60,8 @@ Content-Type: application/json
  
 }
 ### Delete ccate
-DELETE   http://localhost:8000/api/v1/category
+DELETE   http://localhost:8000/api/v1/product/607e44eb585df81338aa29b4
+
 
 ### product zone
 

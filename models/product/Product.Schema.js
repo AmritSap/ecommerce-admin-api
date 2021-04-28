@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 
 const ProductSchema = mongoose.Schema(
   {
-    name: {
-      type: String,
-      require: true,
-      default: "",
-    },
     status: {
       type: Boolean,
       require: true,
       default: false,
+    },
+    name: {
+      type: String,
+      require: true,
+      default: "",
     },
     slug: {
       type: String,
@@ -27,8 +27,9 @@ const ProductSchema = mongoose.Schema(
     },
     saleEndDate: {
       type: Date,
-      default:null,
+      default: null,
     },
+
     qty: {
       type: Number,
       require: true,
@@ -42,19 +43,18 @@ const ProductSchema = mongoose.Schema(
     thumbNail: {
       type: String,
     },
-
     images: {
       type: Array,
     },
     categories: {
       type: Array,
     },
-
-    
   },
   {
     timestamp: true,
   }
 );
 
-export const ProdSchema = mongoose.model("Product", ProductSchema);
+const ProdSchema = mongoose.model("Product", ProductSchema);
+
+export default ProdSchema;

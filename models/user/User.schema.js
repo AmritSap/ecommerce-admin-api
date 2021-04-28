@@ -1,29 +1,46 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const UserSchema = mongoose.Schema({
-  fName: {
-    type: String,
-    require: true,
-    default: "",
+const UserSchema = mongoose.Schema(
+  {
+    fName: {
+      type: String,
+      require: true,
+      default: "",
+    },
+    lName: {
+      type: String,
+      require: true,
+      default: "",
+    },
+    email: {
+      type: String,
+      require: true,
+      default: "",
+    },
+    role: {
+      type: String,
+      require: true,
+      default: "guest",
+    },
+    password: {
+      type: String,
+      require: true,
+      default: "",
+    },
+    refreshJWT: {
+      
+      token: { type: String, require: true, default: "" },
+      addedAt :{
+        type:Date,
+        require:true,
+         
+        default:Date.now(),
+      }
+    },
   },
-  lName: {
-    type: String,
-    require: true,
-    default: "",
-  },
-  email: {
-    type: String,
-    require: true,
-    default: "",
-  },
-  password: {
-    type: String,
-    require: true,
-    default: "",
-  },
-},
-{
-    timestamp:true,
-});
-// this will convert the schema into real table as the table name Admin_user
-export const AdminUsers= mongoose.model("Admin_User", UserSchema);
+  {
+    timestamp: true,
+  }
+);
+// this will convert the schema into real table as the table name users
+export const AdminUsers = mongoose.model("User", UserSchema);

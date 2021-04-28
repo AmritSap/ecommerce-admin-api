@@ -12,24 +12,16 @@ const CategorySchema = mongoose.Schema(
       require: true,
       default: "",
     },
-    parentCategory: {
+    parentCat: {
       type: mongoose.Schema.ObjectId,
-      require: true,
-      default: "",
+      default: null,
     },
-    // childCats: [
-    //   {
-    //     name: {
-    //       type: String,
-    //       require: true,
-    //       default: "",
-    //     },
-    //   },
-    // ],
   },
   {
     timestamp: true,
   }
 );
 
-export const CatSchema = mongoose.model("Category", CategorySchema);
+const CatSchema = mongoose.model("Category", CategorySchema);
+
+export default CatSchema;
