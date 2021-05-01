@@ -77,3 +77,22 @@ export const getUserByEmailAndRefeshJWT = ({email,refreshJWT}) => {
     }
   });
 };
+
+export const deleteRefreshJwtByUserId = (_id) => {
+  return new Promise((resolve, reject) => {
+    try {
+      AdminUsers.findOneAndUpdate(
+        { _id },
+        {
+          $set: { "refreshJWT.token": " ", "refreshJWT.addedAt": Date.now() },
+        },
+        { new: true }
+      )
+        .then((data) => console.log(data))
+        .catch((error) => error);
+      
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
