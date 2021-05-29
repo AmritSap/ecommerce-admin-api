@@ -12,7 +12,7 @@ export const insertCategory = (catObj) => {
   });
 };
 
-export const getCategories = (catObj) => {
+export const getCategories = () => {
   return new Promise(async (resolve, reject) => {
     try {
       const result = await CategorySchema.find();

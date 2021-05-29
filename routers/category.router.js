@@ -33,7 +33,6 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", addCategoryValidation, async (req, res) => {
-  console.log(req.body);
   const { name, parentCat } = req.body;
   try {
     const newCat = {
@@ -45,7 +44,7 @@ router.post("/", addCategoryValidation, async (req, res) => {
     const result = await insertCategory(newCat);
     res.json({
       status: "success",
-      message: "New Category saved",
+      message: "New Category saved!!!!",
       result,
     });
   } catch (error) {

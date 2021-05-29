@@ -158,3 +158,42 @@ export const updateCategoryValidation = (req, res, next) => {
 
   next();
 };
+
+
+export const updatePasswordValidation = (req, res, next) => {
+
+
+
+  try {
+    const {otp,password,email}=req.body
+    // 1is otp vallid
+    // 2 update password in db
+    // 3send email npotification
+
+     console.log(otp, password, email);
+req.body.otp = parseInt(req.body.otp);
+     const schema = Joi.object({
+       otp:num.required(),
+       password:shortStr.required(),
+       email
+     });
+
+     //validation
+     const value = schema.validate(req.body);
+
+     if (value.error) {
+       return res.json({
+         status: "error",
+         message: value.error.message,
+       });
+     }
+
+     next();
+  } catch (error) {
+     res.json({
+       status: "error",
+       message: "unable to process the r",
+     });
+  }
+ 
+};

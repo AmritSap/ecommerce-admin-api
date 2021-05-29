@@ -1,7 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
-import path from "path"
+import path from "path";
 dotenv.config();
 const app = express();
 import cors from "cors";
@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(morgan("tiny"));
 
-const __dirname =path.resolve()
+const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "public")));
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
@@ -28,17 +28,15 @@ import { userAuthorization } from "./middlewares/authorization.middleware.js";
 import loginRouter from "./routers/login.router.js";
 import userRouter from "./routers/user.router.js";
 import categoryRouter from "./routers/category.router.js";
-import productRouter from "./routers/product.router.js"
+import productRouter from "./routers/product.router.js";
 import tokenRouter from "./routers/token.router.js";
 
 // ///////////////////////////////// USE APIS//////////////////////////////
 app.use("/api/v1/login", loginRouter);
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/category",userAuthorization, categoryRouter);
-app.use("/api/v1/product",userAuthorization, productRouter);
+app.use("/api/v1/category", categoryRouter);
+app.use("/api/v1/product", productRouter);
 app.use("/api/v1/token", tokenRouter);
-
-
 
 app.get("/", function (req, res) {
   res.send("Hello World");

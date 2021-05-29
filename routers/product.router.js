@@ -79,6 +79,8 @@ router.post(
       const addNewProd = {
         ...req.body,
         slug: slugify(req.body.name),
+      
+      
       };
 
       const basePath = `${req.protocol}://${req.get("host")}/img/product/`;

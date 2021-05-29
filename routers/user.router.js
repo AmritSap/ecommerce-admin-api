@@ -1,7 +1,10 @@
 import express from "express";
 const router = express.Router();
 import { hassPassword } from "../helpers/bcrypthelpers.js";
-import { newUserValidation } from "../middlewares/formValidation.middleware.js";
+import {
+  newUserValidation,
+  updatePasswordValidation,
+} from "../middlewares/formValidation.middleware.js";
 import { userAuthorization } from "../middlewares/authorization.middleware.js";
 import { getRandOTP } from "../helpers/otp.helper.js";
 import {
@@ -9,12 +12,20 @@ import {
   getUserById,
   deleteRefreshJwtByUserId,
   getUserByEmail,
+  updateNewPassword,
 } from "../models/user/User.model.js";
+import { emailProcessor } from "../helpers/email.helper.js";
 import { deleteAccessJwtByUserId } from "../models/session/Session.model.js";
-import { storeNewPin } from "../models/reset-pin/ResetPin.model.js";
+import {
+  storeNewPin,
+  findNewPin,
+  deletePasswordResetPin,
+} from "../models/reset-pin/ResetPin.model.js";
+
 router.all("*", (req, res, next) => {
   next();
 });
+
 
 router.get("/", userAuthorization, async (req, res) => {
   try {
@@ -93,36 +104,90 @@ router.post("/logout", async (req, res) => {
 router.post("/otp", async (req, res) => {
   try {
     const { email } = req.body;
-    console.log(email);
-    //  get user basred on email
-    const admin = await getUserByEmail(email);
-    console.log(admin);
-    if (admin._id) {
-      // create OTP
+
+    //get user base on the email
+    const adminUser = await getUserByEmail(email);
+
+    ////lots of work to be done
+    if (adminUser?._id) {
+      //1. create OTP
       const otpLength = 6;
       const otp = await getRandOTP(otpLength);
-      // email otp to the admin
-
-      //  many things to be done
+      //store otp in db
       const newOtp = {
         otp,
         email,
       };
+
       const result = await storeNewPin(newOtp);
-      if (result._id) {
-        console.log("EMAIL DATA TO USER ");
+
+      if (result?._id) {
+        console.log("email this datat to user", result);
+        //2. email OTP to the admin
+        const { otp, email } = result;
+        const mailInfo = {
+          type: "OTP_REQUEST",
+          otp,
+          email,
+        };
+        emailProcessor(mailInfo);
       }
     }
+
     res.send({
       status: "sucess",
       message:
-        "if ur email is found in system we will send u the password reset instruction it may take upto 5 minutes,Please check your junk/email/spam folder",
+        "If your email is found in our system, we will send you the password rest instruction. IT may take upto 5min to arrive the email. Please check your junk/spam folder if you don't see email in  your inbox.",
     });
   } catch (error) {
+    console.log(error);
     res.send({
       status: "error",
-      message: "Error! There is some problem in the system,please try again",
+      message:
+        "Error! There is some problem in our system, please try again later.",
     });
   }
 });
+
+router.post("/password", updatePasswordValidation, async (req, res) => {
+  try {
+    const { otp, password, email } = req.body;
+    console.log("from",otp,password,email)
+    // check the pin
+    const pinInfo = await findNewPin({otp,email});
+    // update password
+    if (pinInfo?._id) {
+      const hashPass = await hassPassword(password);
+
+      if (hashPass) {
+        const result = await updateNewPassword({
+          email: pinInfo.email,
+          hashPass,
+        });
+      }
+
+      // delete the otp
+      deletePasswordResetPin(pinInfo._id);
+      if (result._id) {
+        emailObj = {
+          type: "PDATE_PASS_SUCESS",
+          email,
+        };
+        emailProcessor(emailObj);
+        return res.send({
+          status: "sucess",
+          message: "PASSWORD UPDATED",
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.send({
+      status: "error",
+      message:
+        "Error! There is some problem in our system, please try again later.",
+    });
+  }
+});
+
 export default router;

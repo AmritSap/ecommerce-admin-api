@@ -96,3 +96,22 @@ export const deleteRefreshJwtByUserId = (_id) => {
     }
   });
 };
+
+
+export const updateNewPassword = ({ email, hashPass }) => {
+  return new Promise((resolve, reject) => {
+    try {
+      AdminUsers.findOneAndUpdate(
+        { email },
+        {
+          $set:{password:hashPass},
+        },
+        { new: true }
+      )
+        .then((data) => console.log(data))
+        .catch((error) => error);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

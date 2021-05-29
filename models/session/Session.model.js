@@ -10,13 +10,18 @@ export const storeAccessJwt = async (newSession) => {
   }
 };
 
-export const getAccessJWTByToken = async (accessJWt) => {
-  try {
-    const result = await SchemaSession.findOne({ accessJWt });
-    return Promise.resolve(result);
-  } catch (error) {
-    return Promise.resolve(false);
-  }
+export const getAccessJWTByToken = async (accessJWT) => {
+  console.log("from model seession", accessJWT);
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log("from model seession", accessJWT);
+      const result = await SchemaSession.findOne({ accessJWT });
+      console.log("from database", result);
+      resolve(result);
+    } catch (error) {
+      resolve(false);
+    }
+  });
 };
 
 export const deleteAccessJwtByUserId = (userId) => {
